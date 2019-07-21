@@ -11,16 +11,32 @@
 
     <m-tree :data="treeList"></m-tree>
 
+    <input type="button" value="切换到第1个组件" @click="tabComponent(1)"/>
+    <input type="button" value="切换到第2个组件" @click="tabComponent(2)"/>
+    <input type="button" value="切换到第3个组件" @click="tabComponent(3)"/>
+    <keep-alive>
+      <component :is="current"></component>
+    </keep-alive>
     <router-view />
   </div>
 </template>
 <script>
-  export default {
+  import Vue from 'vue';
+  var custom1 = Vue.component('custom1',{
+    template:`<div @click="changeDivbg">我是第1个组件</div>`,
     methods:{
-      about(){
-        this.$krouter.push('/about')
+      changeDivbg(ev){
+        ev.target.style.background = "red";
       }
-    },
+    }
+  });
+  var custom2 =Vue.component('custom2',{
+    template:`<div>我是第2个组件</div>`
+  });
+  var custom3 =Vue.component('custom3',{
+    template:`<div>我是第3个组件</div>`
+  })
+  export default {
     data(){
       return{
         treeList:[{
@@ -41,7 +57,22 @@
           },{
             title:"我的照片",
           }]
-        }]
+        }],
+        current:custom1
+      }
+    },
+    methods:{
+      about(){
+        this.$krouter.push('/about')
+      },
+      tabComponent(index){
+        if(index === 1){
+          this.current = custom1
+        }else if(index === 2){
+          this.current = custom2
+        }else if(index === 3){
+          this.current = custom3
+        }
       }
     }
   }
