@@ -14,16 +14,16 @@
       <ul class="task-count" v-show="list.length">
         <li>{{noCheckeLength}}个任务未完成</li>
         <li class="action">
-          <a class="active" href="#">所有任务</a>
-          <a href="#">未完成的任务</a>
-          <a href="#">完成的任务</a>
+          <a class="active" href="#all">所有任务</a>
+          <a href="#unfinished">未完成的任务</a>
+          <a href="#finished">完成的任务</a>
         </li>
       </ul>
       <h3 class="big-title">任务列表：</h3>
       <div class="tasks">
         <span class="no-task-tip" v-show="!list.length">还没有添加任何任务</span>
         <ul class="todo-list">
-          <li class="todo" :class="{completed: item.isChecked,editing: item === edtorTodos}" v-for="item in list" >
+          <li class="todo" :class="{completed: item.isChecked,editing: item === edtorTodos}" v-for="item in filteredList" >
             <div class="view">
               <input class="toggle" type="checkbox" v-model="item.isChecked" />
               <label @dblclick="edtorTodo(item)">{{ item.title }}</label>
@@ -53,11 +53,22 @@
         list:[],
         todo:"",
         edtorTodos:"",//记录正在编辑的数据
-        beforeTitle:''//记录正在编辑的数据的title
+        beforeTitle:'',//记录正在编辑的数据的title
+        visibility:"all", //通过这个属性值的变化对数据进行筛选
+        hash:"",
+        filter:{}
       }
     },
     mounted:function () {
       this.init();
+      var self = this;
+      this.$nextTick(() => {
+          window.addEventListener("hashchange",function(){
+            self.hash = window.location.hash;
+          console.log(self.hash,'======hash3366')
+       })
+      })
+
     },
     watch:{ //深度监控数据
       list:{
@@ -72,6 +83,11 @@
         return this.list.filter(function(item){
           return !item.isChecked
         }).length
+      },
+      filteredList:function () {
+
+        //找到了过滤函数就返回过滤后的数据；如果没有 返回所有数据
+        return this.filter['all'] ? this.filter['all'](this.list) : this.list ;
       }
     },
     directives:{
@@ -96,6 +112,27 @@
 //          }
 //        ];
         this.list = this.fetch('miao-li');
+        this.watchHashChange();
+        //过滤时有三种情况 all finished unfinished
+        this.filter = {
+          all:function (list) {
+            console.log('all');
+            return list;
+          },
+          finished:function (list) {
+            console.log('finished');
+            return list.filter(function (item) {
+              return item.isChecked;
+            })
+          },
+          unfinished:function (list) {
+            console.log('unfinished');
+            return list.filter(function (item) {
+              return !item.isChecked;
+            })
+          }
+        }
+
       },
       addTodo(){
         this.list.push({
@@ -127,11 +164,15 @@
       },
       fetch(key){
         return JSON.parse(localStorage.getItem(key)) || [];
+      },
+      watchHashChange(){
+        this.hash = window.location.hash.slice(1);
+        this.visibility = this.hash;
       }
-
     }
   }
 </script>
+
 <style>
   .todo-list li.completed label {
     color: #d9d9d9;
