@@ -53,11 +53,19 @@
         list:[],
         todo:"",
         edtorTodos:"",//记录正在编辑的数据
-        beforeTitle:'' //记录正在编辑的数据的title
+        beforeTitle:''//记录正在编辑的数据的title
       }
     },
     mounted:function () {
       this.init();
+    },
+    watch:{ //深度监控数据
+      list:{
+        handler:function(){
+          this.save('miao-li',this.list);
+        },
+        deep:true
+      }
     },
     computed:{
       noCheckeLength:function(){
@@ -77,16 +85,17 @@
     },
     methods:{
       init(){
-       this.list = [
-          {
-            title:"吃饭打豆豆",
-            isChecked:false //状态为false，为不选中  任务未完成
-          },
-          {
-            title:"妙味课堂",
-            isChecked:true   //状态为true，为选中    任务完成
-          }
-        ];
+//       this.list = [
+//          {
+//            title:"吃饭打豆豆",
+//            isChecked:false //状态为false，为不选中  任务未完成
+//          },
+//          {
+//            title:"妙味课堂",
+//            isChecked:true   //状态为true，为选中    任务完成
+//          }
+//        ];
+        this.list = this.fetch('miao-li');
       },
       addTodo(){
         this.list.push({
@@ -111,6 +120,13 @@
 
         //让div显示出来，input隐藏
         this.edtorTodos = '';
+      },
+      save(key,value){
+//		localStorage.setItem(key,value); 此列中 value 的值是 list 数组，所以要将 value 转为字符串
+        localStorage.setItem(key,JSON.stringify(value));
+      },
+      fetch(key){
+        return JSON.parse(localStorage.getItem(key)) || [];
       }
 
     }
