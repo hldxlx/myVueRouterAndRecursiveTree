@@ -1,7 +1,10 @@
 <template>
   <div class="about">
+    <my-cont btn-value="搜搜"></my-cont>
     <h1>This is an about page</h1>
     <div v-html="kk"></div>
+    <mySelect></mySelect>
+    <mySelect></mySelect>
     <div class="main">
       <h3 class="big-title">添加任务：</h3>
       <input
@@ -46,6 +49,7 @@
 </template>
 
 <script type="text/javascript">
+  import mySelect from '../components/select'
   export default {
     data(){
       return{
@@ -98,6 +102,9 @@
           }
         }
       }
+    },
+    components:{
+      mySelect
     },
     methods:{
       init(){

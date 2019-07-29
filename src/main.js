@@ -3,7 +3,6 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router.js'
-
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
@@ -61,6 +60,14 @@ Vue.component('m-tree',{
   `
 })
 
+Vue.component('my-cont',{
+  props:["btnValue"],
+  template:`
+  <div>
+      <input type="button" :value="btnValue">
+  </div>
+  `
+})
 
 new Vue({
   el: '#app',
