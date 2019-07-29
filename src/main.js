@@ -59,14 +59,39 @@ Vue.component('m-tree',{
   </div>
   `
 })
-
+// 这样写会影响到其他组件let obj = {
+//   selectShow:false
+// };
 Vue.component('my-cont',{
-  props:["btnValue"],
+  data:function(){
+    return {
+      selectShow:false
+    };
+  },
+  props:["btnValue","list"],
   template:`
   <div>
-      <input type="button" :value="btnValue">
+      <input type="button" :value="btnValue" @click="selectShow =!selectShow">
+      <input type="text" value="">
+      <my-cont-ul :list="list"></my-cont-ul>
   </div>
   `
+
+})
+Vue.component('my-cont-ul',{
+  props:["list"],
+  template:`
+    <div>
+      <ul v-show="selectShow">
+        <li v-for="item of list" @click="selectValHandle">{{item}}</li>
+      </ul>
+    </div>
+    `,
+  methods:{
+    selectValHandle:function(item){
+
+    }
+  }
 })
 
 new Vue({

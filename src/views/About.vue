@@ -1,6 +1,11 @@
 <template>
   <div class="about">
-    <my-cont btn-value="搜搜"></my-cont>
+
+    <table>
+      <tr :is="my-cont"></tr>
+    </table>
+    <my-cont btn-value="搜搜" v-bind:list="address"></my-cont>
+    <my-cont btn-value="看看"></my-cont>
     <h1>This is an about page</h1>
     <div v-html="kk"></div>
     <mySelect></mySelect>
@@ -60,7 +65,8 @@
         beforeTitle:'',//记录正在编辑的数据的title
         visibility:"all", //通过这个属性值的变化对数据进行筛选
         hash:"",
-        filter:{}
+        filter:{},
+        address:["北京","上海"]
       }
     },
     mounted:function () {
