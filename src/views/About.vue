@@ -1,9 +1,7 @@
 <template>
   <div class="about">
 
-    <table>
-      <tr :is="my-cont"></tr>
-    </table>
+
     <my-cont btn-value="搜搜" v-bind:list="address"></my-cont>
     <my-cont btn-value="看看"></my-cont>
     <h1>This is an about page</h1>

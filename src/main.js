@@ -65,31 +65,45 @@ Vue.component('m-tree',{
 Vue.component('my-cont',{
   data:function(){
     return {
-      selectShow:false
+      selectShow:false,
+      val:''
     };
   },
   props:["btnValue","list"],
   template:`
   <div>
       <input type="button" :value="btnValue" @click="selectShow =!selectShow">
-      <input type="text" value="">
-      <my-cont-ul :list="list"></my-cont-ul>
+      <input type="text" value="" v-model="val">
+      <my-cont-ul
+       :list="list"
+       v-on:receive="changeValueHandle"
+       ></my-cont-ul>
   </div>
-  `
+  `,
+  methods:{
+    changeValueHandle(value){
+      this.val = value;
+    }
+  }
 
 })
 Vue.component('my-cont-ul',{
+  data:function(){
+    return {
+      selectShow:true
+    };
+  },
   props:["list"],
   template:`
     <div>
       <ul v-show="selectShow">
-        <li v-for="item of list" @click="selectValHandle">{{item}}</li>
+        <li v-for="item of list" @click="selectValHandle(item)">{{item}}</li>
       </ul>
     </div>
     `,
   methods:{
     selectValHandle:function(item){
-
+      this.$emit("receive",item);
     }
   }
 })
