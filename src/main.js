@@ -108,6 +108,9 @@ Vue.component('my-cont-ul',{
   }
 })
 
+
+
+
 new Vue({
   el: '#app',
   router,

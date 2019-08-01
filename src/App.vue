@@ -7,6 +7,7 @@
       <button @click="about">about</button>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
+      <router-link to="/demo">Demo</router-link>
     </div>
 
     <m-tree :data="treeList"></m-tree>

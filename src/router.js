@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Home from './views/Home.vue';
 import About from './views/About.vue'
+import Demo from './views/Demo.vue'
 import KRouter from './kkb-router'
 Vue.use(KRouter);
 export default new KRouter({
@@ -21,6 +22,10 @@ export default new KRouter({
     {
       path:"/about",
       component:About
-    }
+    },
+   {
+       path:"/demo",
+       component:Demo
+   }
   ]
 });
