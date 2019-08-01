@@ -10,7 +10,17 @@
 <script>
   export default {
     name: 'my-prop',
-    props:["count"],
+//    props:["count"],
+    props:{
+      count:{
+        type:[Number,String],
+//        default:10,
+        require:true,
+        validator:function(value){
+          return value > 10
+        }
+      }
+    },
     data () {
       return {
         num:this.count
@@ -23,7 +33,9 @@
     },
     methods:{
       turn(){
-        this.num++
+        this.num++;
+        //通知父组件Demo.vue发生了改变
+        this.$emit("increament")
       }
     }
 

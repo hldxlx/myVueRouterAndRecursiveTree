@@ -1,6 +1,8 @@
 <template>
    <div id="demo">
-     <my-prop :count="count"></my-prop>
+     <p>父组件使用了count</p>
+     {{count}}
+     <my-prop :count="count" @increament="handleChange"></my-prop>
    </div>
 </template>
 
@@ -9,7 +11,12 @@
   export default {
     data(){
       return{
-        count:0
+        count:20
+      }
+    },
+    methods:{
+      handleChange(){
+        this.count++
       }
     },
     components: {
